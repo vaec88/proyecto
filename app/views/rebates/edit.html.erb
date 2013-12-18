@@ -1,0 +1,13 @@
+<%= form_for @depreciacion do |d|%>
+  <div id="formulario">
+    <table>
+      <tr>
+        <td><%= label_tag nil, "Metodo de Depreciacion:" %></td>
+        <td><%= d.text_field :met_nombre %></td>
+      </tr>
+      <tr>
+        <td colspan="2" class="boton"><%= d.submit "Guardar"%></td>
+      </tr>
+    </table>
+  </div>
+<%end%>

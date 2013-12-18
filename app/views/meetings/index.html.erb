@@ -1,0 +1,39 @@
+<%= stylesheet_link_tag "tablas.css", :media => "screen" %>
+<div id="tabla">
+  <table class="bordered">
+    <tr>
+      <th><div class="titulos"><p>Actores</p></div></th>
+      <th><div class="titulos"><p>Detalle</p></div></th>
+      <th><div class="titulos"><p>Fecha - Hora</p></div></th>
+      <th><div class="titulos"><p>Acciones</p></div></th>
+    </tr>
+    <% @reuniones.each do |r| %>
+      <tr>
+        <td width="160px"><div class="etiquetas_left"><%= label_tag nil, r.reu_actores %></div></td>
+        <td><div class="etiquetas_left"><%= label_tag nil, r.reu_detalle %></div></td>
+        <td width="160px"><div class="etiquetas_left"><%= label_tag nil, r.reu_fecha_hora.strftime('%d/%m/%Y %H:%M:%S') %></div></td>
+        <td><%= label_tag nil, (link_to (image_tag "contenido/edit16.png"), :action => "edit", :id => r.id) %><%= label_tag nil, (link_to (image_tag "contenido/delete16.png"), r, :method => "delete", :confirm => "¿Esta seguro?")%></td>
+      </tr>
+    <%end%>
+  </table>
+</div>
+
+<%= form_for @reunion do |r|%>
+  <div id="formulario">
+    <table>
+      <tr>
+        <td><%= r.label "Actores: " %></td>
+        <td><%= r.text_field :reu_actores, :class=>"textarea" %></td>
+      </tr>
+      <tr>
+        <td><%= r.label "Detalle: " %></td>
+        <td><%= r.text_area :reu_detalle, :class=>"textarea" %></td>
+      </tr>
+      <%= hidden_field_tag :construction_id, @inmueble.id%>
+      <tr>
+        <td colspan="2" class="boton"><%= r.submit "Guardar"%></td>
+      </tr>
+    </table>
+  </div>
+<%end%>
+<%#= link_to "Agregar reunion", new_meeting_path(:construction_id => @inmueble.id) %>

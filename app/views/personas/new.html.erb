@@ -1,0 +1,73 @@
+<html>
+  <head>
+    <script language="JavaScript" type="text/javascript" src="/javascripts/sliding.form.js"></script>
+    <script>
+      $(document).ready(function() {
+        $('#pers_demand_cedula').change(function(event) {
+          $.ajax({
+            url: "<%= update_demandante_path %>",
+            data: {
+              numero_cedula : $(this).val()
+            },
+            dataType: "script"
+          });
+        });
+      });
+    </script>   
+  </head>
+  <body>
+    <div id="content">
+      <div id="wrapper">
+        <div id="steps">
+          <%= form_for @demandante do |i| %>
+            <fieldset class="step">
+              <legend>Demandante</legend>
+                <p>
+                  <%= i.label :Cedula%>
+                  <%= i.text_field :pers_cedula, :id => "pers_demand_cedula" %>
+                </p>
+                <p>
+                  <%= i.label :Apellidos %>
+                  <%= i.text_field :pers_apellido, :id => "pers_demand_apellidos"%>
+                </p>
+                <p>
+                  <%= i.label :Nombres %>
+                  <%= i.text_field :pers_nombre, :id => "pers_demand_nombres" %>
+                </p>
+                <p>
+                  <%= i.label :Direccion %>
+                  <%= i.text_field :pers_direccion, :id => "pers_demand_direccion" %>
+                </p>
+                <p>
+                  <%= i.label :"Telefono Convencional" %>
+                  <%= i.text_field :pers_telefono1, :id => "pers_demand_telefono1" %>
+                </p>
+                <p>
+                  <%= i.label :"Telefono Celular" %>
+                  <%= i.text_field :pers_telefono2, :id => "pers_demand_telefono2" %>
+                </p>
+                <p>
+                  <%= i.label :"Correo Electronico" %>
+                  <%= i.text_field :pers_email, :id => "pers_demand_email" %>
+                </p>
+                
+                <%= hidden_field_tag :demand_existe, "no",:id => "pers_demand_existe" %>
+                
+                <p>
+                <% @captaciones.each do |c| %>
+                  <%= check_box_tag "channel_ids[]", c.id%><%= " " + c.capt_nombre %><br/>
+                <%end%>
+                </p>
+                <p class="button">
+                  <button id="registerButton">
+                    <%= i.submit "Guardar"%>
+                  </button>
+                </p>
+            </fieldset>
+            <%= hidden_field_tag :construction_id, @inmueble.id %>
+          <%end%>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

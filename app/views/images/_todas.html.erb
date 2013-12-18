@@ -1,0 +1,21 @@
+<div id="galeria_imgs">
+  <% @inmueble.images.in_groups_of(4, false).each do |iig| %>
+  <%# @inmueble.images.each do |img|%>
+    <%#= img.img_path %>
+    <%#= image_tag img.img_path.url(:thumb) %>
+  <table>
+    <tr>
+    <% iig.each do |img|%>
+    
+      <td><a class="group2" <%= link_to (image_tag img.img_path.url(:thumb), :width => 200, :height => 200),(asset_path img.img_path.url(:original))%></a>
+    
+    <%if current_user.nil? == false%>
+      <br/>
+      <%= link_to "Eliminar", img, :method => "delete", :confirm => "¿Esta seguro?"%>
+    </td>
+    <%end%>
+    <%end%>
+    </tr>
+  </table>
+  <%end%>
+</div>

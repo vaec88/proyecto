@@ -1,0 +1,17 @@
+<table>
+  <tr>
+    <td><%= "Nombre de Parametro: " %></td>
+    <td><%= @parametro.param_descrip %></td>
+  </tr>
+  <tr>
+    <td><%= "Descripciones: " %></td>
+  </tr>
+  <%@descripcion.each do |d|%>
+    <tr>
+      <td><%= d.param_val_descrip %></td>
+      <td><%= d.param_val_unit %></td>
+    </tr>
+  <%end%>
+
+  
+</table>

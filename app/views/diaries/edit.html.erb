@@ -1,0 +1,31 @@
+<head>
+  <%= stylesheet_link_tag "http://ajax.googleapis.com/ajax/libs/jqueryui/1.7.2/themes/redmond/jquery-ui.css"%>
+  <%#= stylesheet_link_tag "jquery-ui.css"%>
+  <script language="JavaScript" type="text/javascript" src="/javascripts/jquery-ui.min.js"></script>
+  <script language="JavaScript" type="text/javascript" src="/javascripts/application.js"></script>
+</head>
+<%= form_for @actividad do |a|%>
+  <div id="formulario">
+    <table>
+      <tr>
+        <td><%= a.label "Actividad: " %></td>
+        <td><%= a.text_area :age_actividad, :class=>"textarea" %></td>
+      </tr>
+      <tr>
+        <td><%= a.label "Fecha: " %></td>
+        <td><%= a.text_field :age_fecha,:class=>"textarea"  %></td>
+      </tr>
+      <tr>
+        <td><%= a.label "Hora: " %></td>
+        <td><%= a.text_field :age_hora, :value => @actividad.age_hora.strftime('%H:%M:%S'), :class=>"textarea"  %></td>
+      </tr>
+      <tr>
+        <td><%= a.label "Direccion: " %></td>
+        <td><%= a.text_field :age_direccion, :class=>"textarea"  %></td>
+      </tr>
+      <tr>
+        <td colspan="2" class="boton"><%= a.submit "Guardar"%></td>
+      </tr>
+    </table>
+  </div>  
+<%end%>

@@ -1,0 +1,43 @@
+<%= stylesheet_link_tag "tablas.css", :media => "screen" %>
+<%#= @usuario.usu_username %>
+<%#= @mes %>
+<div id="tabla">
+  <table class="bordered">
+    <tr>
+      <th><div class="titulos"><p>Cantidad</p></div></th>
+      <th><div class="titulos"><p>Mes</p></div></th>
+      <th><div class="titulos"><p>Año</p></div></th>
+      <th><div class="titulos"><p>Fecha (aaaa/mm/dd)</p></div></th>
+      <th><div class="titulos"><p>Acciones</p></div></th>
+    </tr>
+    <%@cuotas.each do |c|%>
+      <tr>
+        <td><%= label_tag nil, c.amo_cantidad %></td>
+          <%if c.amo_mes == 1%><%@mes = "Enero"%><%end%><%if c.amo_mes == 2%><%@mes = "Febrero"%><%end%>
+          <%if c.amo_mes == 3%><%@mes = "Marzo"%><%end%><%if c.amo_mes == 4%><%@mes = "Abril"%><%end%>
+          <%if c.amo_mes == 5%><%@mes = "Mayo"%><%end%><%if c.amo_mes == 6%><%@mes = "Junio"%><%end%>
+          <%if c.amo_mes == 7%><%@mes = "Julio"%><%end%><%if c.amo_mes == 8%><%@mes = "Agosto"%><%end%>
+          <%if c.amo_mes == 9%><%@mes = "Septiembre"%><%end%><%if c.amo_mes == 10%><%@mes = "Octubre"%><%end%>
+          <%if c.amo_mes == 11%><%@mes = "Noviembre"%><%end%><%if c.amo_mes == 12%><%@mes = "Diciembre"%><%end%>
+        <td><%= label_tag nil, @mes %></td>
+        <td><%= label_tag nil, c.amo_anio %></td>
+        <td><%= label_tag nil, c.amo_fecha.strftime('%Y-%m-%d') %></td>
+        <%#= label_tag nil, c.amo_fecha.strftime('%d/%m/%Y') %>
+        <td><%= label_tag nil, (link_to (image_tag "contenido/edit16.png"), :action => "edit", :id => c.id) %><%= label_tag nil, (link_to (image_tag "contenido/delete16.png"), c, :method => "delete", :confirm => "¿Esta seguro?") %></td>
+      </tr>
+    <%end%>
+
+    <%= form_for @cuota do |c|%>
+      <tr>
+        <td><%= c.text_field :amo_cantidad, :style=>"width:50px" %></td>
+        <td><%= c.select :amo_mes, options_for_select([["Enero","1"],["Febrero","2"],["Marzo","3"],["Abril","4"],["Mayo","5"],["Junio","6"],["Julio","7"],["Agosto","8"],["Septiembre","9"],["Octubre","10"],["Noviembre","11"],["Diciembre","12"]]), { :include_blank => false }, {:style => "width:100px"} %></td>
+        <td><%= c.select :amo_anio, options_for_select([["2013"],["2014"]]), { :include_blank => false }, {:style => "width:100px"} %></td>
+        <td><%= c.text_field :amo_fecha, :style=>"width:150px"%></td>
+        <%= hidden_field_tag :usuario_id, @usuario.id %>
+        <td><%= label_tag nil, image_submit_tag("contenido/add2-16.png")%></td>
+      </tr>
+    <%end%>
+      
+  </table>
+</div>
+<%#= link_to 'Agregar pago de cuota', new_amount_path(:usuario_id => @usuario.id) %>

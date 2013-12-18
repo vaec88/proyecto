@@ -1,0 +1,216 @@
+    <script>
+      $(document).ready(function() {
+      $('#province_select').change(function() {
+        $.ajax({
+        url: "<%= update_cantons_path %>",
+        data: {
+          province_id : $('#province_select').val()
+        },
+        dataType: "script"
+        });
+      });
+      $('#canton_select').change(function() {
+        $.ajax({
+        url: "<%= update_parishes_path %>",
+        data: {
+          canton_id : $('#canton_select').val()
+        },
+        dataType: "script"
+        });
+      });
+    });
+    </script>
+
+<%= form_for @inmueble do |i|%>
+<div id="formulario">
+<fieldset>
+  <legend class="leyenda">Datos del Inmueble</legend>
+  <div id="edit_const_colum_1">
+  <table id="tabla">
+    <tr>
+      <td><%= i.label :"Ciudadela:" %></td>
+      <td><%= i.text_field :inm_ciudadela %></td>
+    </tr>
+    <tr>
+      <td><%= i.label :"Calle:" %></td>
+      <td><%= i.text_field :inm_calle %></td>
+    </tr>
+    <tr>
+      <td><%= i.label :"Conjunto:" %></td>
+      <td><%= i.text_field :inm_conjunto %></td>
+    </tr>
+    <tr>
+      <td><%= i.label :"Numero de Vivienda:" %></td>
+      <td><%= i.text_field :inm_vivienda %></td>
+    </tr>
+    <tr>
+      <td><%= i.label :"Unidad de medida:" %></td>
+      <td><%= i.text_field :inm_unid_med %></td>
+    </tr>
+    <tr>
+      <td><%= i.label :"Tipo de Operacion:" %></td>
+      <td><%= i.select :operation_id, options_for_select(@operacion.collect{ |o| [o.oper_nombre, o.id] }, @operacion_actual.id), { :include_blank => true }, {:style => "width:212px"} %></td>
+    </tr>
+    <tr>
+      <td><%= i.label :"Tipo de Propiedad:" %></td>
+      <td><%= i.select :property_id, options_for_select(@propiedad.collect{ |p| [p.propd_nombre, p.id] }, @propiedad_actual.id), { :include_blank => true }, {:style => "width:212px"} %></td>
+    </tr>
+    <tr>
+      <td><%= i.label :"Provincia:" %></td>
+      <td><%= select_tag :province_id, options_from_collection_for_select(@provincia, "id", "prov_nombre", @provincia_actual.id), :prompt => "Seleccione una Provincia", :style => "width:212px", :id => 'province_select'%></td>
+      <td><%#= collection_select(:province_id, @provincia, :id, :prov_nombre,  {:prompt => "Seleccione una Provincia"}, {:id => 'province_select'}) %></td>
+      <td><%#= select_tag 'province_id', options_for_select(Province.all.map { |p| ["#{p.prov_nombre}", p.id] }),:id => "province_select" %></td>
+      <%#= i.collection_select :parish_id, Province.find(:all), :id, :prov_nombre%>
+    </tr>
+    <tr>
+      <td><%= i.label :"Canton:" %></td>
+      <td><%= select_tag :canton_id, options_from_collection_for_select(@canton, "id", "cant_nombre", @canton_actual.id), :prompt => "Seleccione un Canton", :style => "width:212px", :id => 'canton_select'%></td>
+      <td><%#= collection_select(nil,:canton_id, @canton, :id, :cant_nombre, {:prompt => "Seleccione un Canton"}, {:id => 'canton_select'}) %></td>
+      <%#= i.collection_select :parish_id, Canton.find(:all), :id, :cant_nombre%>
+    </tr>
+    <tr>
+      <td><%= i.label :"Parroquia:" %></td>
+      <td><%= i.collection_select(:parish_id, @parroquia, :id, :parr_nombre,{:prompt => "Seleccione una Parroquia"}, {:id => 'parish_select'}) %></td>
+      <td><%#= i.select :parish_id, options_for_select(@parroquia.collect{ |p| [p.parr_nombre, p.id] }), { :include_blank => true }, {:style => "width:206px"} %></td>
+    </tr>
+    <tr>
+      <td><%= i.label :"Forma de Pago:" %></td>
+      <td><%= i.text_field :inm_forma_pago %></td>
+    </tr>
+  </table>
+  </div>
+
+  <div id="edit_const_colum_2">
+  <table id="tabla">
+    <tr>
+      <th><div class="titulos"><p>Divisiones</p></div></th>
+      <th><div class="titulos"><p>Cant</p></div></th>
+      <th><div class="titulos"><p>Descripcion</p></div></th>
+    </tr>
+    <% @partes.each do |p| %>
+      <%msg="false"%>
+      <tr>
+        <%@partes_const_actual.each do |pca|%>
+          <%if pca.piece_id == p.id%>
+            <%msg="true"%>
+            <td><%= check_box_tag("piece_ids[]", p.id, checked = true)%><%= label_tag nil, (" " + p.part_nombre)%></td>
+            <td class="centrar_obj"><%= text_field_tag "det_numero_"+"#{p.id}", pca.det_numero,:style => "width:25px" %></td>
+            <td><%= text_field_tag "det_descrip_"+"#{p.id}", pca.det_descrip %></td>
+            <%= hidden_field_tag "piece_actuals[]", pca.piece_id %>
+          <%end%>
+        <%end%>
+        <%if msg == "false"%>
+          <td><%= check_box_tag("piece_ids[]", p.id, checked = false)%><%= label_tag nil, (" " + p.part_nombre)%></td>
+          <td class="centrar_obj"><%= text_field_tag "det_numero_"+"#{p.id}", nil, :style => "width:25px" %></td>
+          <td><%= text_field_tag "det_descrip_"+"#{p.id}", nil %></td>
+        <%end%>
+      </tr>
+    <%end%>
+  </table>
+  </div>
+</fieldset>
+  
+  <br/>
+  
+  
+    <%#= fields_for @propietario do |i| %>
+  <%if @propietario.present?%>
+    <fieldset>
+    <legend class="leyenda">Datos del Propietario</legend>
+      <%= hidden_field_tag :pers_id, @propietario.id %>
+      <table id="tabla">
+        <tr>
+          <td><%= label_tag nil, "Cedula:" %></td>
+          <td><%= text_field_tag :pers_cedula, @propietario.pers_cedula %></td>
+        </tr>
+        <tr>
+          <td><%= label_tag nil, "Apellidos:" %></td>
+          <td><%= text_field_tag :pers_apellido, @propietario.pers_apellido %></td>
+        </tr>
+        <tr>
+          <td><%= label_tag nil, "Nombres:" %></td>
+          <td><%= text_field_tag :pers_nombre, @propietario.pers_nombre %></td>
+        </tr>
+        <tr>
+          <td><%= label_tag nil, "Direccion:" %></td>
+          <td><%= text_field_tag :pers_direccion, @propietario.pers_direccion %></td>
+        </tr>
+        <tr>
+          <td><%= label_tag nil, "Telefono Convencional:" %></td>
+          <td><%= text_field_tag :pers_telefono1, @propietario.pers_telefono1 %></td>
+        </tr>
+        <tr>
+          <td><%= label_tag nil, "Telefono Celular:" %></td>
+          <td><%= text_field_tag :pers_telefono2, @propietario.pers_telefono2 %></td>
+        </tr>
+        <tr>
+          <td><%= label_tag nil, "Correo Electronico:" %></td>
+          <td><%= text_field_tag :pers_email, @propietario.pers_email %></td>
+        </tr>
+      </table>
+    </fieldset>
+  <%end%>
+      <br/>
+      
+      <%if @demandante.present?%>
+      <fieldset>
+        <legend class="leyenda">Datos del Demandante</legend>
+          <%= hidden_field_tag :demand_id, @demandante.id %>
+        <div id="edit_demand_colum1">
+        <table id="tabla">
+          <tr>
+            <td><%= label_tag nil, "Cedula:" %></td>
+            <td><%= text_field_tag :demand_cedula, @demandante.pers_cedula %></td>
+          </tr>
+          <tr>
+            <td><%= label_tag nil, "Apellidos:" %></td>
+            <td><%= text_field_tag :demand_apellido, @demandante.pers_apellido %></td>
+          </tr>
+          <tr>
+            <td><%= label_tag nil, "Nombres:" %></td>
+            <td><%= text_field_tag :demand_nombre, @demandante.pers_nombre %></td>
+          </tr>
+          <tr>
+            <td><%= label_tag nil, "Direccion:" %></td>
+            <td><%= text_field_tag :demand_direccion, @demandante.pers_direccion %></td>
+          </tr>
+          <tr>
+            <td><%= label_tag nil, "Telefono Convencional:" %></td>
+            <td><%= text_field_tag :demand_telefono1, @demandante.pers_telefono1 %></td>
+          </tr>
+          <tr>
+            <td><%= label_tag nil, "Telefono Celular:" %></td>
+            <td><%= text_field_tag :demand_telefono2, @demandante.pers_telefono2 %></td>
+          </tr>
+          <tr>
+            <td><%= label_tag nil, "Correo Electronico:" %></td>
+            <td><%= text_field_tag :demand_email, @demandante.pers_email %></td>
+          </tr>
+          <tr>
+            <td colspan="2" class="centrar_obj"><%=check_box_tag :inm_estado, 1 %><%= label_tag nil, " ¿Cancelar Negociacion?"%></td>
+          </tr>
+        </table>
+        </div>
+        
+        <div id="edit_demand_colum2">
+          <div class="titulos"><%= label_tag nil, "Formas de Captación"%></div>
+          <p>
+            <% @captaciones.each do |c| %>
+              <%= check_box_tag "construction[channel_ids][]", c.id, @inmueble.channels.include?(c) %><%= " " + c.capt_nombre %><br/>
+              <%#= check_box_tag "channel_ids[]", c.id%><%#= " " + c.capt_nombre %>
+            <%end%>
+          </p>
+        </div>
+    </fieldset>
+    <%end%>
+      
+
+          
+          <%#end%>
+          <!--<tr>
+      <td></td>
+    </tr>-->
+  
+   <div class="boton"><%= i.submit "Guardar"%></div>
+  </div>
+<%end%>

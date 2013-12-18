@@ -1,0 +1,25 @@
+<%= stylesheet_link_tag "tablas.css", :media => "screen" %>
+<div id="tabla">
+  <table class="bordered">
+    <th><div class="titulos"><p>Descripcion de Parametro</p></div></th>
+    <th><div class="titulos"><p>Valor</p></div></th>
+    <th><div class="titulos"><p>Acciones</p></div></th>
+    <% @params_vals.each do |pv| %>
+      <tr>
+        <%#= check_box_tag 'pv_ids[]', pv.id %>
+        <td><%= label_tag nil, pv.param_val_descrip %></td>
+        <td><%= label_tag nil, (number_with_precision pv.param_val_unit, :precision => 2) %></td>
+        <td><%= label_tag nil, (link_to (image_tag "contenido/edit16.png"), :action => "edit", :id => pv.id) %><%= label_tag nil, (link_to (image_tag "contenido/delete16.png"), pv, :method => "delete", :confirm => "¿Esta seguro?") %></td>
+      </tr>
+    <% end %>
+
+    <%= form_for @param_val do |pv|%>
+      <tr>
+        <td><%= pv.text_field :param_val_descrip, :class=>"width_auto"%></td>
+        <td><%= pv.text_field :param_val_unit, :style=>"width:50px" %></td>
+        <td><%= label_tag nil, image_submit_tag("contenido/add2-16.png")%></td>
+      </tr>
+    <%end%>
+  </table>
+</div>
+<%#= link_to 'Agregar nueva descripcion', new_description_path %>

@@ -1,0 +1,25 @@
+<%= form_for @cuota do |c|%>
+  <div id="formulario">
+    <table>
+      <tr>
+        <td><%= c.label "Valor de Cuota: " %></td>
+        <td><%= c.text_field :amo_cantidad %></td>
+      </tr>
+      <tr>
+        <td><%= c.label "Mes: " %></td>
+        <td><%= c.select :amo_mes, options_for_select([["Enero","1"],["Febrero","2"],["Marzo","3"],["Abril","4"],["Mayo","5"],["Junio","6"],["Julio","7"],["Agosto","8"],["Septiembre","9"],["Octubre","10"],["Noviembre","11"],["Diciembre","12"]], @cuota.amo_mes), { :include_blank => false }, {:style => "width:100px"} %></td>
+      </tr>
+      <tr>
+        <td><%= c.label "Año: " %></td>
+        <td><%= c.select :amo_anio, options_for_select([["2013"],["2014"]], @cuota.amo_anio), { :include_blank => false }, {:style => "width:100px"} %></td>
+      </tr>
+      <tr>
+        <td><%= c.label "Fecha de Pago: " %></td>
+        <td><%= c.text_field :amo_fecha, :value => (@cuota.amo_fecha.strftime('%Y-%m-%d')) %></td>
+      </tr>
+      <tr>
+        <td colspan="2" class="boton"><%= c.submit "Guardar"%></td>
+      </tr>
+    </table>
+  </div>
+<%end%>

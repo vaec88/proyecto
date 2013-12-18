@@ -1,0 +1,24 @@
+<%= form_for @parametro do |p|%>
+  <div id="formulario">
+    <table>
+      <tr>
+        <td><%= label_tag nil, "Parametro de Avaluo:" %></td>
+        <td><%= p.text_field :param_descrip %></td>
+      </tr>
+    </table>
+    <% for description in Description.find(:all) %>
+      <table>
+        <tr>
+          <td><%= check_box_tag "parameter[description_ids][]", description.id, @parametro.descriptions.include?(description) %></td>
+          <td><%= label_tag nil, description.param_val_descrip %></td>
+          <td><%= label_tag nil, description.param_val_unit %></td>
+        </tr>
+      </table>
+    <% end %>
+    <table>
+      <tr>
+        <td colspan="2" class="boton"><%= p.submit "Guardar"%></td>
+      </tr>
+    </table>
+  </div>
+<%end%>

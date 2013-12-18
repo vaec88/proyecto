@@ -1,0 +1,13 @@
+<%= form_for @captacion do |c|%>
+  <div id="formulario">
+    <table>
+      <tr>
+        <td><%= label_tag nil, "Medio de Captacion:" %></td>
+        <td><%= c.text_field :capt_nombre %></td>
+      </tr>
+      <tr>
+        <td colspan="2" class="boton"><%= c.submit "Guardar"%></td>
+      </tr>
+    </table>
+  </div>
+<%end%>

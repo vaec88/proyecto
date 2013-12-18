@@ -1,0 +1,17 @@
+<%= form_for @estado do |e|%>
+  <div id="formulario">
+    <table>
+      <tr>
+        <td><%= label_tag nil, "Nombre del Estado:" %></td>
+        <td><%= e.text_field :met_val_descrip %></td>
+      </tr>
+      <tr>
+        <td><%= label_tag nil, "Valor:" %></td>
+        <td><%= e.text_field :met_val_unit %></td>
+      </tr>
+      <tr>
+        <td colspan="2" class="boton"><%= e.submit "Guardar"%></td>
+      </tr>
+    </table>
+  </div>
+<%end%>

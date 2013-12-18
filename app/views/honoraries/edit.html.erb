@@ -1,0 +1,17 @@
+<%= form_for @honorario do |h|%>
+  <div id="formulario">
+    <table>
+      <tr>
+        <td><%= h.label "Cantidad de Abono: " %></td>
+        <td><%= h.text_field :hon_cantidad %></td>
+      </tr>
+      <tr>
+        <td><%= h.label "Fecha de Transaccion: " %></td>
+        <td><%= h.text_field :hon_fecha, :value => (@honorario.hon_fecha.strftime('%Y-%m-%d')) %></td>
+      </tr>
+      <tr>
+        <td colspan="2" class="boton"><%= h.submit "Guardar"%></td>
+      </tr>
+    </table>
+  </div>
+<%end%>

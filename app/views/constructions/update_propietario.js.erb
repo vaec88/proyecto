@@ -1,0 +1,16 @@
+<%if @existe == "yes"%>
+  $('#pers_propiet_apellidos').val("<%= @propietario.pers_apellido%>");
+  $('#pers_propiet_nombres').val("<%= @propietario.pers_nombre%>");
+  $('#pers_propiet_direccion').val("<%= @propietario.pers_direccion%>");
+  $('#pers_propiet_telefono1').val("<%= @propietario.pers_telefono1%>");
+  $('#pers_propiet_telefono2').val("<%= @propietario.pers_telefono2%>");
+  $('#pers_propiet_email').val("<%= @propietario.pers_email%>");
+<%else%>
+  $('#pers_propiet_apellidos').val("");
+  $('#pers_propiet_nombres').val("");
+  $('#pers_propiet_direccion').val("");
+  $('#pers_propiet_telefono1').val("");
+  $('#pers_propiet_telefono2').val("");
+  $('#pers_propiet_email').val("");
+<%end%>
+$('#pers_propiet_existe').val("<%= @existe%>");

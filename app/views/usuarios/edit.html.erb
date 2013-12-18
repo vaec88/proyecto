@@ -1,0 +1,135 @@
+<head>
+  <script language="JavaScript" type="text/javascript" src="/javascripts/sliding.form.js"></script>
+</head>
+<div id="content">
+<div id="wrapper">
+  <div id="steps">
+    <!--<form id="formElem"  action="" method="">-->
+      <%= form_for @user, :html => {:multipart => true} do |f|%>
+      <fieldset class="step">
+        <legend>Cuenta</legend>
+          <% if @user.errors.any? %>
+            <div class="error_messages">
+              <h2>Formulario no valido</h2>
+                <ul>
+                  <% for message in @user.errors.full_messages %>
+                    <li><%= message %></li>
+                  <% end %>
+                </ul>
+            </div>
+          <% end %>
+          <p>
+            <%= label_tag nil, "Nombre de Usuario" %>
+            <%= f.text_field :usu_username %>
+          </p>
+          <p>
+            <%= label_tag nil, "Contraseña" %>
+            <%#= f.password_field :usu_password %>
+          </p>
+          <p>
+            <%= label_tag nil, "Matricula Profesional" %>
+            <%= f.text_field :usu_matr_prof %>
+          </p>
+          <p>
+            <%= label_tag nil, "Pagina Web" %>
+            <%= f.text_field :usu_pag_web %>
+          </p>
+          <p>
+            <%= label_tag nil, "Foto" %>
+            <%= f.file_field :usu_foto %>
+          </p>
+          <% #u_id = @user.id %>
+      </fieldset>
+
+
+
+      <fieldset class="step">
+        <legend>Datos Personales</legend>
+          <%= fields_for @person do |f| %>
+          <%# if @person.errors.any? %>
+            <%#*<div class="error_messages">%>
+              <%#*<h2>Formulario no valido</h2>%>
+                <%#*<ul>%>
+                  <%# for message in @person.errors.full_messages %>
+                    <%#*<li><%= message %><!--</li>%>-->
+                  <%# end %>
+                <%#*</ul>%>
+            <%#*</div>%>
+          <%# end %>
+          <p>
+            <%= label_tag nil, "Cedula" %>
+            <%= f.text_field :pers_cedula %>
+          </p>
+          <p>
+            <%= label_tag nil, "Apellidos" %>
+            <%= f.text_field :pers_apellido %>
+          </p>
+          <p>
+            <%= label_tag nil, "Nombres" %>
+            <%= f.text_field :pers_nombre %>
+          </p>
+          <p>
+            <%= label_tag nil, "Direccion" %>
+            <%= f.text_field :pers_direccion %>
+          </p>
+          <p>
+            <%= label_tag nil, "Telefono Convencional" %>
+            <%= f.text_field :pers_telefono1 %>
+          </p>
+          <p>
+            <%= label_tag nil, "Telefono Celular" %>
+            <%= f.text_field :pers_telefono2 %>
+          </p>
+          <p>
+            <%= label_tag nil, "Correo Electronico" %>
+            <%= f.text_field :pers_email %>
+          </p>
+          <% #p_id = @person.id %>
+
+
+
+
+            <%#= fields_for @per_rol_usu do |f| %>
+              <%# @per_rol_usu.persona_id = p_id %>
+              <%# @per_rol_usu.role_id = 2 %>
+              <%# @per_rol_usu.usuario_id = u_id %>
+
+            <%#end%>
+
+
+
+
+
+
+
+
+
+
+
+          <%end%>
+          <p class="button">
+            <button id="registerButton">
+            <%#= f.submit; p.submit "Guardar"%>
+            <%= f.submit "Guardar"%>
+            </button>
+          </p>
+          </fieldset>
+
+
+
+
+      <% end %>
+    <!--</form>-->
+  </div>
+  <div id="navigation" style="display:none;">
+    <ul>
+      <li class="selected">
+        <a href="#">Cuenta</a>
+      </li>
+      <li>
+        <a href="#">Datos Personales</a>
+      </li>
+    </ul>
+  </div>
+</div>
+</div>

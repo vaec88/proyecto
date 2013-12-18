@@ -1,0 +1,13 @@
+<%= form_for @propiedad do |p|%>
+  <div id="formulario">
+    <table>
+      <tr>
+        <td><%= label_tag nil, "Tipo de Propiedad:" %></td>
+        <td><%= p.text_field :propd_nombre %></td>
+      </tr>
+      <tr>
+        <td colspan="2" class="boton"><%= p.submit "Guardar"%></td>
+      </tr>
+    </table>
+  </div>
+<%end%>

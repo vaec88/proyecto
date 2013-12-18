@@ -1,0 +1,49 @@
+<%= stylesheet_link_tag "tablas.css", :media => "screen" %>
+<h1>CORREDORES DE BIENES RAICES</h1>
+<div id="tabla">
+<table class="bordered">
+  <tr>
+    <th><div class="titulos"><p>Foto</p></div></th>
+    <th><div class="titulos"><p>Estado</p></div></th>
+    <th><div class="titulos"><p>Cedula</p></div></th>
+    <th><div class="titulos"><p>Apellidos</p></div></th>
+    <th><div class="titulos"><p>Nombres</p></div></th>
+    <th><div class="titulos"><p>Email</p></div></th>
+    <th><div class="titulos"><p>Acciones</p></div></th>
+  </tr>
+  <%user_id = nil%>
+  <% for persona in @personas %>
+    <tr>
+      <% persona.usuarios.uniq.each do |pu| %>
+        <td><img alt="" width="40" height="40" class="perfil_user" <%= image_tag pu.usu_foto.url(:small) %></img></td>
+        <td><%= label_tag nil, pu.usu_estado %></td>
+      <%user_id = pu.id%>
+      <%end%>
+      <td><%= label_tag nil, persona.pers_cedula %></td>
+      <td><%= label_tag nil, persona.pers_apellido %></td>
+      <td><%= label_tag nil, persona.pers_nombre %></td>
+      <td><%= label_tag nil, persona.pers_email %></td>
+
+      <%Role.where(:id => current_rol).each do |rol| %>
+        <% if rol.rol_nombre == "Administrador" %>
+          <td><%= label_tag nil, (link_to (image_tag "contenido/calculator16.png"), index_amount_path(:usuario_id => user_id)) %><%= label_tag nil, (link_to (image_tag "contenido/edit16.png"), edit_usuarios_path(:usuario_id => user_id, :persona_id => persona.id)) %><%= label_tag nil, (link_to (image_tag "contenido/delete16.png"), persona, :method => "delete", :confirm => "¿Esta seguro?")%></td>
+          <%#= link_to "Editar", edit_usuarios_path(:usuario_id => user_id, :persona_id => persona.id)%>
+          <%#= link_to "Eliminar" %>
+        <%else%>
+          <% if rol.rol_nombre == "Tesorero" %>
+            <td><%= label_tag nil, (link_to (image_tag "contenido/calculator16.png"), index_amount_path(:usuario_id => user_id)) %></td>
+            <%#= link_to (label_tag nil, "Pagos"), index_amount_path(:usuario_id => user_id) %>
+          <%end%>
+        <%end%>
+      <%end%>
+      
+      <%#= link_to (label_tag nil, "Pagos"), index_amount_path(:usuario_id => user_id) %>
+    </tr>
+  <% end %>
+</table>
+</div>
+<%Role.where(:id => current_rol).each do |rol| %>
+  <% if rol.rol_nombre == "Administrador" %>
+    <%= label_tag nil, (link_to (image_tag("contenido/add2-16.png")+" "+'Agregar nuevo usuario'), sing_up_path) %>
+  <%end%>
+<%end%>

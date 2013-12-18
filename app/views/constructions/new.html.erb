@@ -1,0 +1,183 @@
+<%# javascript 'dynamic_cantons' %>
+<%#= javascript_include_tag "dynamic_cantons.js.erb"%>
+<html>
+  <head>
+    <script language="JavaScript" type="text/javascript" src="../javascripts/sliding.form.js"></script>
+    <script>
+      $(document).ready(function() {
+      $('#province_select').change(function() {
+        $.ajax({
+        url: "<%= update_cantons_path %>",
+        data: {
+          province_id : $('#province_select').val()
+        },
+        dataType: "script"
+        });
+      });
+      $('#canton_select').change(function() {
+        $.ajax({
+        url: "<%= update_parishes_path %>",
+        data: {
+          canton_id : $('#canton_select').val()
+        },
+        dataType: "script"
+        });
+      });
+
+      $('#pers_propiet_cedula').change(function(event) {
+          $.ajax({
+            url: "<%= update_propietario_path %>",
+            data: {
+              numero_cedula : $(this).val()
+            },
+            dataType: "script"
+          });
+        });
+
+    });
+    </script>
+
+  </head>
+  <body>
+    <div id="content">
+      <div id="wrapper">
+        <div id="steps">
+          <%= form_for @inmueble do |i|%>
+            <fieldset class="step">
+              <legend>Información</legend>
+              <table>
+                <tr>
+                  <td><%= i.label :"Ciudadela" %></td>
+                  <td><%= i.text_field :inm_ciudadela, :autocomplete => :off%></td>
+                </tr>
+                <tr>
+                  <td><%= i.label :"Calle" %></td>
+                  <td><%= i.text_field :inm_calle %></td>
+                </tr>
+                <tr>
+                  <td><%= i.label :"Conjunto" %></td>
+                  <td><%= i.text_field :inm_conjunto %></td>
+                </tr>
+                <tr>
+                  <td><%= i.label :"Numero de Vivienda" %></td>
+                  <td><%= i.text_field :inm_vivienda %></td>
+                </tr>
+                <tr>
+                  <td><%= i.label :"Unidad de medida" %></td>
+                  <td><%= i.text_field :inm_unid_med %></td>
+                </tr>
+                <tr>
+                  <td><%= i.label :"Tipo de Operacion" %></td>
+                  <td><%= i.select :operation_id, options_for_select(@operacion.collect{ |o| [o.oper_nombre, o.id] }), { :include_blank => true }, {:style => "width:212px"} %></td>
+                </tr>
+                <tr>
+                  <td><%= i.label :"Tipo de Propiedad" %></td>
+                  <td><%= i.select :property_id, options_for_select(@propiedad.collect{ |p| [p.propd_nombre, p.id] }), { :include_blank => true }, {:style => "width:212px"} %></td>
+                </tr>
+                <tr>
+                  <td><%= i.label :"Provincia" %></td>
+                  <td><%= collection_select(nil, :province_id, @provincia, :id, :prov_nombre, {:prompt => "Seleccione una Provincia"}, {:id => 'province_select'}) %></td>
+                  <td><%#= select_tag 'province_id', options_for_select(Province.all.map { |p| ["#{p.prov_nombre}", p.id] }),:id => "province_select" %></td>
+                  <td><%#= select_tag "province", options_for_select(@provincia.collect {|p| [p.prov_nombre,p.id]}),:onchange=>remote_function(:url=>{:action=>"update_cantons"},:before=>"load_close('cargando provincias')",:success=>"load_off('cargando provincias')",:with=>"'province_id=' + $('province').value") %></td>
+                  <td><%#= select_tag :province_id, options_from_collection_for_select(@provincia, "id", "prov_nombre"), :include_blank => true, :style => "width:206px", :id => 'province_select'%></td>
+
+                  <%#= i.collection_select :parish_id, Province.find(:all), :id, :prov_nombre%>
+                </tr>
+                <tr>
+                  <td><%= i.label :"Canton" %></td>
+                  <td><%= collection_select(nil, :canton_id, @canton, :id, :cant_nombre, {:prompt => "Seleccione un Canton"}, {:id => 'canton_select'}) %></td>
+                  <td><%#= select_tag :canton_id, options_from_collection_for_select(@canton, "id", "cant_nombre"), :include_blank => true, :style => "width:206px", :id => 'canton_select'%></td>
+                  <%#= i.collection_select :parish_id, Canton.find(:all), :id, :cant_nombre%>
+                </tr>
+                <tr>
+                  <td><%= i.label :"Parroquia" %></td>
+                  <td><%= i.collection_select(:parish_id, @parroquia, :id, :parr_nombre, {:prompt => "Seleccione una Parroquia"}, {:id => 'parish_select'}) %></td>
+                  <td><%#= i.select :parish_id, options_for_select(@parroquia.collect{ |p| [p.parr_nombre, p.id] }), { :include_blank => true }, {:style => "width:206px"} %></td>
+                </tr>
+                <tr>
+                  <td><%= i.label :"Forma de Pago" %></td>
+                  <td><%= i.text_field :inm_forma_pago %></td>
+                </tr>
+              </table>
+              <br/>
+              <table>
+                <tr>
+                  <td ><div class="titulos">Divisiones</div></td>
+                  <td><div class="titulos">Cantidad</div></td>
+                  <td><div class="titulos">Descripcion</div></td>
+                </tr>
+                <% @partes.each do |p| %>
+                  <tr>
+                    <td><%= check_box_tag "piece_ids[]", p.id%><%= label_tag " " + p.part_nombre %></td>
+                    <td><%= text_field_tag "det_numero_"+"#{p.id}", nil, :class => "", :id => "", :style => "width:50px" %></td>
+                    <td><%= text_field_tag "det_descrip_"+"#{p.id}", nil, :class => "", :id => "", :style => "width:200px" %></td>
+                  </tr>
+                <%end%>
+
+                <!--<tr>
+                  <td><%#= i.submit "Guardar"%></td>
+                </tr>-->
+              </table>
+              
+            </fieldset>
+
+            <fieldset class="step">
+              <legend>Propietario</legend>
+                <%= fields_for @persona do |i| %>
+                  <p>
+                    <%= i.label :Cedula %>
+                    <%= i.text_field :pers_cedula, :id => "pers_propiet_cedula" %>
+                  </p>
+                  <p>
+                    <%= i.label :Apellidos %>
+                    <%= i.text_field :pers_apellido, :id => "pers_propiet_apellidos" %>
+                  </p>
+                  <p>
+                    <%= i.label :Nombres %>
+                    <%= i.text_field :pers_nombre, :id => "pers_propiet_nombres" %>
+                  </p>
+                  <p>
+                    <%= i.label :Direccion %>
+                    <%= i.text_field :pers_direccion, :id => "pers_propiet_direccion" %>
+                  </p>
+                  <p>
+                    <%= i.label :"Telefono Convencional" %>
+                    <%= i.text_field :pers_telefono1, :id => "pers_propiet_telefono1" %>
+                  </p>
+                  <p>
+                    <%= i.label :"Telefono Celular" %>
+                    <%= i.text_field :pers_telefono2, :id => "pers_propiet_telefono2" %>
+                  </p>
+                  <p>
+                    <%= i.label :"Correo Electronico" %>
+                    <%= i.text_field :pers_email, :id => "pers_propiet_email" %>
+                  </p>
+                  
+                  <%= hidden_field_tag :propiet_existe, "no", :id => "pers_propiet_existe" %>
+                  
+                <%end%>
+                <p class="submit">
+                  <button id="registerButton" type="submit">
+                    Guardar<% i.submit "Guardar"%>
+                  </button>
+                </p>
+            </fieldset>            
+          <%end%>
+            
+        </div>
+
+        <div id="navigation" style="display:none;">
+          <ul>
+            <li class="selected">
+              <a href="#">Información</a>
+            </li>
+            <li>
+              <a href="#">Propietario</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
+

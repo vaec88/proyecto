@@ -1,0 +1,13 @@
+<%= form_for @roles do |f|%>
+  <div id="formulario">
+    <table>
+      <tr>
+        <td><%= label_tag nil, "Nombre de Rol:" %></td>
+        <td><%= f.text_field :rol_nombre %></td>
+      </tr>
+      <tr>
+        <td colspan="2" class="boton"><%= f.submit "Guardar"%></td>
+      </tr>
+    </table>
+  </div>
+<%end%>

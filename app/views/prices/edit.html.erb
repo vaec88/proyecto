@@ -1,0 +1,13 @@
+<%= form_for @tabla_avaluo do |ta|%>
+  <div id="formulario">
+    <table>
+      <tr>
+        <td><%= label_tag nil, "Tabla de Avaluo:" %></td>
+        <td><%= ta.text_field :aval_descrip %></td>
+      </tr>
+      <tr>
+        <td colspan="2" class="boton"><%= ta.submit "Guardar"%></td>
+      </tr>
+    </table>
+  </div>
+<%end%>

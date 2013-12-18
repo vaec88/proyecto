@@ -1,0 +1,27 @@
+<%= stylesheet_link_tag "tablas.css", :media => "screen" %>
+<%= label_tag nil, (">> " + @rebate.met_nombre), :class=>"negrita" %>
+<div id="tabla">
+  <table class="bordered">
+    <%#= @canton.cant_nombre %>
+    <th><div class="titulos"><p>Nombre del Estado</p></div></th>
+    <th><div class="titulos"><p>Valor</p></div></th>
+    <th><div class="titulos"><p>Acciones</p></div></th>
+    <% @estados.each do |e| %>
+      <tr>
+        <td><%= label_tag nil, e.met_val_descrip %></td>
+        <td><%= label_tag nil, (number_with_precision e.met_val_unit, :precision => 4) %></td>
+        <td><%= label_tag nil, (link_to (image_tag "contenido/edit16.png"), :action => "edit", :id => e.id) %><%= label_tag nil, (link_to (image_tag "contenido/delete16.png"), e, :method => "delete", :confirm => "¿Esta seguro?") %></td>
+      </tr>
+    <% end %>
+
+    <%= form_for @estado do |e|%>
+      <tr>
+        <td><%= e.text_field :met_val_descrip, :class=>"width_auto"%></td>
+        <td><%= e.text_field :met_val_unit, :style=>"width:50px"%></td>
+        <%= e.hidden_field :rebate_id, value: @id %>
+        <td><%= label_tag nil, image_submit_tag("contenido/add2-16.png")%></td>
+      </tr>
+    <%end%>
+  </table>
+</div>
+<%#= link_to 'Agregar nuevo estado para el metodo', new_state_path(:rebate_id => @id) %>

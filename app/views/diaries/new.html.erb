@@ -1,0 +1,41 @@
+<head>
+  <%= stylesheet_link_tag "http://ajax.googleapis.com/ajax/libs/jqueryui/1.7.2/themes/redmond/jquery-ui.css"%>
+  <%#= stylesheet_link_tag "http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.8/themes/ui-lightness/jquery-ui.css"%>
+  <%#= stylesheet_link_tag "jquery-ui.css"%>
+  <%= stylesheet_link_tag "tablas.css", :media => "screen" %>
+  <script language="JavaScript" type="text/javascript" src="/javascripts/jquery-ui.min.js"></script>
+  <script language="JavaScript" type="text/javascript" src="/javascripts/application.js"></script>
+</head>
+<div id="tabla">
+  <table class="bordered">
+    <tr>
+      <th><div class="titulos"><p>Actividad</p></div></th>
+      <th><div class="titulos"><p>Fecha (aaaa/mm/dd)</p></div></th>
+      <th><div class="titulos"><p>Hora</p></div></th>
+      <th><div class="titulos"><p>Direccion</p></div></th>
+      <th><div class="titulos"><p>Acciones</p></div></th>
+    </tr>
+    <%@actividades.each do |a| %>
+      <tr>
+        <td><div class="etiquetas_left"><%= label_tag nil, a.age_actividad %></div></td>
+        <td><div class="etiquetas_left"><%= label_tag nil, a.age_fecha %></div></td>
+        <td><div class="etiquetas_left"><%= label_tag nil, a.age_hora.strftime('%H:%M:%S') %></div></td>
+        <td><div class="etiquetas_left"><%= label_tag nil, a.age_direccion %></div></td>
+        <td><%= label_tag nil, (link_to (image_tag "contenido/edit16.png"), :action => "edit", :id => a.id) %><%= label_tag nil, (link_to (image_tag "contenido/delete16.png"), a, :method => "delete", :confirm => "¿Esta seguro?") %></td>
+      </tr>
+    <% end %>
+
+    <%= form_for @actividad do |a|%>
+      <tr>
+        <%#= a.text_area :age_actividad, :cols => 30, :rows => 5 %>
+        <td width="100%"><%= a.text_field :age_actividad, :class=>"width_auto"%></td>
+        <td><%= a.text_field :age_fecha, :value=>@fecha, :readonly=>true, :style=>"width:150px"%></td>
+        <%#= a.label "Fecha: " %><%#= a.text_field :age_fecha, :class => "diary_age_fecha", :id => "diary_age_fecha", :style => "width:100px"%>
+        <td><%= a.text_field :age_hora, :style=>"width:50px"%></td>
+        <td><%= a.text_field :age_direccion, :style=>"width:200px" %></td>
+        <%= hidden_field_tag :usuario_id, @usuario.id%>
+        <td><%= label_tag nil, image_submit_tag("contenido/add2-16.png")%></td>
+      </tr>
+    <%end%>
+  </table>
+</div>

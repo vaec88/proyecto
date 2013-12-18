@@ -1,0 +1,17 @@
+<%= form_for @param_val do |pv|%>
+  <div id="formulario">
+    <table>
+      <tr>
+        <td><%= label_tag nil, "Descripcion de Parametro:" %></td>
+        <td><%= pv.text_field :param_val_descrip %></td>
+      </tr>
+      <tr>
+        <td><%= label_tag nil, "Valor de parametro:" %></td>
+        <td><%= pv.text_field :param_val_unit %></td>
+      </tr>
+      <tr>
+        <td colspan="2" class="boton"><%= pv.submit "Guardar"%></td>
+      </tr>
+    </table>
+  </div>
+<%end%>
